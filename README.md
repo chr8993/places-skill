@@ -6,7 +6,8 @@ Simply by asking "Alexa, ask places for directions to Starbucks" you can receive
 ## Installation
 You can utilize the Places skill by running the following:
 
-`git clone https://github.com/chr8993/places-skill.git` \
+`git clone https://github.com/chr8993/places-skill.git`
+
 `cd ./places-skill && gulp`
 
 This will generate a zip file in the dist folder that you will need to upload to Amazon Web Services Lambda using the alexa-skills-kit-color-expert blueprint. In order for persisted location information you must enable permission for AWS Lambda to write/create tables in DynamoDB.
@@ -14,11 +15,14 @@ This will generate a zip file in the dist folder that you will need to upload to
 ## Configuration
 In order for the external APIs to work properly you must replace any neccessary API keys to your own. The following files must be modified:
 
-`\\index.js line 7` \
+`\\index.js line 7`
+
 `var key         = "GOOGLE_API_KEY"; // your google api key`
 
-`\\index.js line 247`\
+`\\index.js line 247`
+
 `var appId = "ALEXA_APP_ID"; //your app ID`
 
-`\\places.js line 4`\
+`\\places.js line 4`
+
 `var key = "GOOGLE_API_KEY" //your google api key`
