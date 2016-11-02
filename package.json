@@ -1,0 +1,31 @@
+{
+  "name": "echo-places",
+  "version": "0.0.1",
+  "description": "Will search for nearest places and present information via amazon echo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Amazon",
+    "echo",
+    "alexa",
+    "dot",
+    "places",
+    "api",
+    "google",
+    "maps",
+    "places"
+  ],
+  "author": "Christian Gomez <chr8993@gmail.com> (http://christiangomez.me)",
+  "license": "MIT",
+  "dependencies": {
+    "@google/maps": "^0.3.0",
+    "alexa-sdk": "^1.0.6",
+    "gulp": "^3.9.1",
+    "gulp-zip": "^3.2.0",
+    "lodash": "^4.16.6",
+    "moment": "^2.15.2",
+    "q": "^1.4.1"
+  }
+}
