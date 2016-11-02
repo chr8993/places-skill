@@ -1,4 +1,4 @@
-![alt tag](http://res.cloudinary.com/cinemate/image/upload/w_150/places_large_vuwqbh.png)
+![alt tag](https://res.cloudinary.com/cinemate/image/upload/w_150/places_large_vuwqbh.png)
 # Alexa Places Skill
 The Places skill is meant to simplify the available information about a specific location. Places can help you find where a location may be and offers directions that are sent to your phone!
 
