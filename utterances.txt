@@ -33,14 +33,3 @@ GetLocationIntent what is my location set to
 GetLocationIntent where am I located
 RecieveLocationIntent {LocationResponse}
 VerifyLocationIntent {VerifyResponse}
-AMAZON.HelpIntent what can I say
-AMAZON.HelpIntent for help
-AMAZON.HelpIntent help
-AMAZON.HelpIntent help me
-AMAZON.HelpIntent can you help me
-AMAZON.CancelIntent cancel
-AMAZON.CancelIntent never mind
-AMAZON.CancelIntent forget it
-AMAZON.CancelIntent please cancel
-AMAZON.StopIntent stop
-AMAZON.StopIntent please stop
