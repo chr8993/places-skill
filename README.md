@@ -9,7 +9,7 @@ You can utilize the Places skill by running the following:
 
 `git clone https://github.com/chr8993/places-skill.git`
 
-`cd ./places-skill && gulp`
+`cd ./places-skill && npm install && gulp`
 
 This will generate a zip file in the dist folder that you will need to upload to Amazon Web Services Lambda using the alexa-skills-kit-color-expert blueprint. In order for persisted location information you must enable permission for AWS Lambda to write/create tables in DynamoDB.
 
