@@ -31,8 +31,11 @@ In order for the external APIs to work properly you must replace any neccessary 
 ### DynamoDb Permissions
 In order to allow for storage of a user's location, you must update the permissions to allow full access to create the neccessary `alexaStorage` table. You can do this by attaching the `AmazonDynamoDBFullAccess` policy to the role you selected for the Lambda function.
 
-1.) Head over to: [IAM Console](https://console.aws.amazon.com/iam/home#roles) \
-2.) Select the role you attached to the Lambda function in the table displayed. \
+1.) Head over to: [IAM Console](https://console.aws.amazon.com/iam/home#roles)
+
+2.) Select the role you attached to the Lambda function in the table displayed.
+
 3.) Attach the `AmazonDynamoDBFullAccess` policy
+
 
 ![IAM Console Screen](http://res.cloudinary.com/cinemate/image/upload/udpate_policy_le089u.jpg)
