@@ -42,4 +42,4 @@ In order to allow for storage of a user's location, you must update the permissi
 3.) Attach the `AmazonDynamoDBFullAccess` policy
 
 
-![IAM Console Screen](http://res.cloudinary.com/cinemate/image/upload/w_500/udpate_policy_le089u.jpg)
+![IAM Console Screen](http://res.cloudinary.com/cinemate/image/upload/w_800/udpate_policy_le089u.jpg)
