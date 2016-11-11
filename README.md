@@ -4,6 +4,10 @@ The Places skill is meant to simplify the available information about a specific
 
 Simply by asking "Alexa, ask places for directions to Starbucks" you can receive accurate directions sent to your phone. You can also ask for general information about a location like the hours of operations and phone number by asking "Alexa, ask places what is the phone number for Pizza Hut" or "Alexa, ask places is Walmart is still open"
 
+[Check it out!](http://alexa.amazon.com/spa/index.html#skills/dp/B01M74ZQ0Z/?ref=skill_dsk_skb_ca_5)
+
+http://alexa.amazon.com/spa/index.html#skills/dp/B01M74ZQ0Z/?ref=skill_dsk_skb_ca_5
+
 ## Installation
 You can utilize the Places skill by running the following:
 
@@ -38,4 +42,4 @@ In order to allow for storage of a user's location, you must update the permissi
 3.) Attach the `AmazonDynamoDBFullAccess` policy
 
 
-![IAM Console Screen](http://res.cloudinary.com/cinemate/image/upload/udpate_policy_le089u.jpg)
+![IAM Console Screen](http://res.cloudinary.com/cinemate/image/upload/w_500/udpate_policy_le089u.jpg)
