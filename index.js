@@ -4,8 +4,24 @@ var _           = require('lodash');
 var places      = new placesAPI();
 var photo       = "https://maps.googleapis.com/";
 photo          += "maps/api/place/photo?";
-var key         = "GOOGLE_API_KEY"; // your google api key
+var key         = "GOOGLE_API_KEY"; //your google api key
 var temp;
+
+var promptLocation = function(el) {
+  var m = "Your location is not currently set, to continue ";
+  m += "please say your address or zip code for ";
+  m += "accurate results.";
+  var zip = "Please say your zip code";
+  el.handler.state = '_RECIEVE';
+  el.emit(":ask", m, zip);
+};
+
+var handleError = function(el) {
+  var m = "Sorry I didn't catch that. ";
+  m += "Please try saying again. ";
+  el.emit(":ask", m, m);
+};
+
 var handlers = {
   "AskNearestIntent": function() {
      var req = this.event.request;
@@ -15,7 +31,7 @@ var handlers = {
      var cur = el.attributes['location'];
      var n = (slots.Location.value) ? slots.Location.value: cur;
      if((!slots.Location.value) && (!el.attributes['location'])) {
-        el.emit("AskLocationIntent");
+        promptLocation(el);
         return false;
      }
      if(p != null && p != undefined) {
@@ -32,21 +48,41 @@ var handlers = {
                  withImg = true;
                }
              }
-             var t = d.name;
+             var card = d.name + "\r\n";
+             card += d.formatted_address + "\r\n";
+             if(d.formatted_phone_number) {
+               card += d.formatted_phone_number + "\r\n";
+             }
+             card += d.distance + " miles away\r\n";
+             card += places.fetchRating(d);
+             card += '\r\n';
+             if(d.opening_hours) {
+               if(d.opening_hours.weekday_text) {
+                 card += "\r\n" + places.fetchHours(d);
+               }
+             }
+             card += '\r\n\r\nNeed directions? Try saying ';
+             card += "'Alexa, ask nearby places for directions to ";
+             card += p + "'";
+             var title = d.name;
              var img = {};
              if(withImg) {
                var reference = d.photos[0].photo_reference;
-               var url = photo + "photo_reference=" + reference;
-               url += "&key=" + key;
-               var urlSmal = url + "&maxwidth=720";
-               url += "&maxwidth=1200";
-               img.smallImageUrl = urlSmal;
-               img.largeImageUrl = url;
+               places.fetchResource(reference)
+               .then(function(src) {
+                 img.smallImageUrl = src;
+                 img.largeImageUrl = src;
+                 el.emit(":tellWithCard", r, title, card, img);
+               });
+             } else {
+               el.emit(":tellWithCard", r, title, card, img);
              }
-             el.emit(":tellWithCard", r, t, r, img);
            }
          });
        });
+     }
+     else {
+       handleError(el);
      }
   },
   "AskHoursIntent": function() {
@@ -57,7 +93,7 @@ var handlers = {
     var cur = el.attributes['location'];
     var n = (slots.HoursLocation.value) ? slots.HoursLocation.value: cur;
     if((!slots.HoursLocation.value) && (!el.attributes['location'])) {
-       el.emit("AskLocationIntent");
+       promptLocation(el);
        return false;
     }
     if(p != null && p != undefined) {
@@ -74,6 +110,9 @@ var handlers = {
         });
       });
     }
+    else {
+      handleError(el);
+    }
   },
   "AskPhoneIntent": function() {
     var req = this.event.request;
@@ -83,7 +122,7 @@ var handlers = {
     var cur = el.attributes['location'];
     var n = (slots.PhoneLocation.value) ? slots.PhoneLocation.value: cur;
     if((!slots.PhoneLocation.value) && (!el.attributes['location'])) {
-       el.emit("AskLocationIntent");
+       promptLocation(el);
        return false;
     }
     if(p != null && p != undefined) {
@@ -100,6 +139,9 @@ var handlers = {
         });
       });
     }
+    else {
+      handleError(el);
+    }
   },
   "AskDirectionsIntent": function() {
     var req = this.event.request;
@@ -109,7 +151,7 @@ var handlers = {
     var cur = el.attributes['location'];
     var n = (slots.DirectionsLocation.value) ? slots.DirectionsLocation.value: cur;
     if((!slots.DirectionsLocation.value) && (!el.attributes['location'])) {
-       el.emit("AskLocationIntent");
+       promptLocation(el);
        return false;
     }
     if(p != null && p != undefined) {
@@ -120,29 +162,38 @@ var handlers = {
           if(res) {
             var r = res.response;
             var d = res.data;
+            var details = d.details;
             var t = "Directions to " + p;
             var img = {};
             img.smallImageUrl = d.map.small;
             img.largeImageUrl = d.map.large;
             var s = "";
             var num = 1;
+            var duration = details.duration.text;
+            var dist = details.distance.text;
+            // s += details.end_address + "\r\n";
+            s += duration + " (" + dist + ") ";
+            if(details.via) {
+              s += "via " + details.via;
+            }
+            s += "\r\n \r\n";
             _.forEach(d.steps, function(step) {
-               s += num + ".) " + step + "\r\n";
+               s += num + ".) " + step + "\r\n \r\n";
                num++;
             });
             el.emit(":tellWithCard", r, t, s, img);
           }
+          else {
+            var m = "Sorry, I am unable to get ";
+            m += "accurate directions to " + p + ".";
+            el.emit(":tell", m, m);
+          }
         });
       });
     }
-  },
-  "AskLocationIntent": function() {
-     var m = "Your location is not currently set, to continue ";
-     m += "please say your address or zip code for ";
-     m += "accurate results.";
-     var zip = "Please say your zip code";
-     this.handler.state = '_RECIEVE';
-     this.emit(":ask", m, zip);
+    else {
+      handleError(el);
+    }
   },
   "SetLocationIntent": function() {
      var req = this.event.request;
@@ -163,6 +214,13 @@ var handlers = {
          }
        });
      }
+     else {
+       var m = "Sorry I didn't catch your ";
+       m += "location. Please try saying: ";
+       m += "Set location to, followed by your ";
+       m += "zip code or address. ";
+       el.emit(":ask", m, m);
+     }
   },
   "GetLocationIntent": function() {
     var el = this;
@@ -173,13 +231,34 @@ var handlers = {
       var t = "Your current location";
       el.emit(":tellWithCard", res, t, res);
     } else {
-      el.emit("AskLocationIntent");
+      promptLocation(el);
     }
+  },
+  "AMAZON.CancelIntent": function() {
+    var el = this;
+    el.emit(":tell", "", "");
+  },
+  "AMAZON.StopIntent": function() {
+    var el = this;
+    el.emit(":tell", "", "");
+  },
+  "AMAZON.HelpIntent": function() {
+    var el = this;
+    promptHelp(el);
+  },
+  "LaunchRequest": function() {
+    var m = "The places skill allows ";
+    m += "you to ask for directions, location information, ";
+    m += "and hours of operation. For a list of available commands, ";
+    m += "Please say help. You can also say cancel or stop ";
+    m += "at any time to exit. What would you like to do?";
+    var r = "What would you like to do?";
+    this.emit(":ask", m, m);
   },
   "Unhandled":function() {
     var message = "Sorry, I could not understand ";
     message += "your request. Please try again. ";
-    this.emit(":tell", message);
+    this.emit(":ask", message, message);
   }
 };
 
@@ -209,6 +288,15 @@ var recieveModeHandlers = Alexa.CreateStateHandler('_RECIEVE', {
      this.emit(":ask", message, message);
   }
 });
+
+var promptHelp = function(el) {
+  var m = "Here are a few examples of things you can say: ";
+  m += "where is the closest Target, how can I get ";
+  m += "to the closest Walgreens, what is the phone number";
+  m += "for the closest Pizza Hut, what is my location. ";
+  m += "What would you like to do?";
+  el.emit(":ask", m, m);
+};
 
 var verifyModeHandlers = Alexa.CreateStateHandler("_VERIFY", {
   "VerifyLocationIntent": function() {

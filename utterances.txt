@@ -1,0 +1,46 @@
+AskNearestIntent for closest {Place}
+AskNearestIntent for nearest {Place}
+AskNearestIntent where is the closest {Place}
+AskNearestIntent where is the nearest {Place}
+AskNearestIntent for closest {Place} near {Location}
+AskNearestIntent for nearest {Place} near {Location}
+AskNearestIntent where is the closest {Place} near {Location}
+AskNearestIntent where is the nearest {Place} near {Location}
+AskHoursIntent is {HoursPlace} open
+AskHoursIntent is {HoursPlace} near {HoursLocation} open
+AskHoursIntent is {HoursPlace} is still open
+AskHoursIntent is {HoursPlace} near {HoursLocation} still open
+AskPhoneIntent what is the phone number for {PhonePlace}
+AskPhoneIntent what is the number for {PhonePlace}
+AskPhoneIntent what is the phone number for {PhonePlace} near {PhoneLocation}
+AskPhoneIntent what is the number for {PhonePlace} near {PhoneLocation}
+AskDirectionsIntent for directions to {DirectionsPlace}
+AskDirectionsIntent for directions to {DirectionsPlace} from {DirectionsLocation}
+AskDirectionsIntent for directions to the closest {DirectionsPlace}
+AskDirectionsIntent for directions to the nearest {DirectionsPlace}
+AskDirectionsIntent for directions to {DirectionsPlace} near {DirectionsLocation}
+AskDirectionsIntent for directions to the closest {DirectionsPlace} from {DirectionsLocation}
+AskDirectionsIntent for directions to the nearest {DirectionsPlace} from {DirectionsLocation}
+AskDirectionsIntent how can I get to {DirectionsPlace}
+AskDirectionsIntent how can I get to {DirectionsPlace} near {DirectionsLocation}
+AskDirectionsIntent how can I get to {DirectionsPlace} from {DirectionsLocation}
+SetLocationIntent to set my location to {LocationAnswer}
+SetLocationIntent set my location to {LocationAnswer}
+SetLocationIntent my location is {LocationAnswer}
+SetLocationIntent change location to {LocationAnswer}
+GetLocationIntent what is my location
+GetLocationIntent what is my location set to
+GetLocationIntent where am I located
+RecieveLocationIntent {LocationResponse}
+VerifyLocationIntent {VerifyResponse}
+AMAZON.HelpIntent what can I say
+AMAZON.HelpIntent for help
+AMAZON.HelpIntent help
+AMAZON.HelpIntent help me
+AMAZON.HelpIntent can you help me
+AMAZON.CancelIntent cancel
+AMAZON.CancelIntent never mind
+AMAZON.CancelIntent forget it
+AMAZON.CancelIntent please cancel
+AMAZON.StopIntent stop
+AMAZON.StopIntent please stop

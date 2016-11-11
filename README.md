@@ -20,10 +20,10 @@ In order for the external APIs to work properly you must replace any neccessary 
 
 `var key         = "GOOGLE_API_KEY"; // your google api key`
 
-`\\index.js line 247`
+`\\index.js line 335`
 
 `var appId = "ALEXA_APP_ID"; //your app ID`
 
-`\\places.js line 4`
+`\\places.js line 5`
 
 `var key = "GOOGLE_API_KEY" //your google api key`

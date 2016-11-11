@@ -1,7 +1,10 @@
-var $q     = require('q');
-var moment = require('moment');
-var _      = require('lodash');
-var key = "GOOGLE_API_KEY" //your google api key
+var $q        = require('q');
+var moment    = require('moment');
+var _         = require('lodash');
+var request   = require('request');
+var key       = "GOOGLE_API_KEY"; //your google api key
+var photoUrl  = "https://maps.googleapis.com/";
+photoUrl      += "maps/api/place/photo?";
 var mapsClient = require('@google/maps').createClient({
   Promise: $q.Promise,
   key: key
@@ -124,6 +127,63 @@ var placesAPI = function() {
     },
     /**
      *
+     * @function fetchResource
+     * @memberof placesAPI
+     * @desc Will get the resource
+     * from photo reference
+     *
+     */
+    fetchResource: function(photo) {
+      var d = $q.defer();
+      var url = photoUrl;
+      url += "photo_reference=" + photo;
+      url += "&key=" + key;
+      url += "&maxwidth=720";
+      var r = request.get(url, function() {
+          d.resolve(r.uri.href);
+      });
+      return d.promise;
+    },
+    /**
+     *
+     * @function fetchHours
+     * @memberof placesAPI
+     * @desc Will get hours
+     * for provided day
+     *
+     */
+    fetchHours: function(place) {
+      var hours = place.opening_hours;
+      var days = hours.weekday_text;
+      var s = days.join('\r\n');
+      return s;
+    },
+    /**
+     *
+     * @function fetchRating
+     * @memberof placesAPI
+     * @desc Will get rating
+     * for a specific location
+     *
+     */
+    fetchRating: function(place) {
+      var stars = "";
+      var sopen = "☆";
+      var sfilled = "★";
+      if(place.rating) {
+        var rating = Math.floor(place.rating);
+        var diff = 5 - rating;
+        for(var i = 1; i <= rating; i++) {
+            stars += sfilled;
+        }
+        for(var a = 0; a < diff; a++) {
+           stars += sopen;
+        }
+      }
+      return stars;
+    },
+    /**
+     *
      * @function getMap
      * @memberof placesAPI
      * @memberof Will get the map
@@ -180,20 +240,39 @@ var placesAPI = function() {
       .asPromise()
       .then(function(res) {
         var data = res.json;
-        var route = data.routes[0];
-        var leg = route.legs[0];
-        var steps = [];
-        _.forEach(leg.steps, function(step) {
-          var text = step.html_instructions;
-          var stripped = text.replace(/(<([^>]+)>)/ig,"");
-          steps.push(stripped);
-        });
-        var map = el.getMap(route);
-        var t = {};
-        t.steps = steps;
-        t.map = map;
-        t.duration = leg.duration;
-        d.resolve(t);
+        if(data.routes.length) {
+          var route = data.routes[0];
+          var leg = route.legs[0];
+          var steps = [];
+          var l = {};
+          l.distance = leg.distance;
+          l.duration = leg.duration;
+          l.end_address = leg.end_address;
+          l.via = (route.summary) ? route.summary: "";
+          _.forEach(leg.steps, function(step) {
+            var text = step.html_instructions;
+            var stripped = text.replace(/(<([^>]+)>)/ig,"");
+            var searchFor = "Destination will be";
+            var replaceWith = "\r\n\r\nDestination will be";
+            stripped = stripped.replace(searchFor, replaceWith);
+            if(step.distance) {
+              if(step.distance.text) {
+                var dist = step.distance.text;
+                stripped += " (" + dist + ")";
+              }
+            }
+            steps.push(stripped);
+          });
+          var map = el.getMap(route);
+          var t = {};
+          t.steps = steps;
+          t.map = map;
+          t.details = l;
+          t.duration = leg.duration;
+          d.resolve(t);
+        } else {
+            d.resolve(false);
+        }
       });
       return d.promise;
     },
@@ -248,6 +327,7 @@ var placesAPI = function() {
             r = r.replace('{{location}}', a);
             r = r.replace('{{miles}}', distance);
             var t = {};
+            res.distance = distance;
             t.response = r;
             t.data = res;
             d.resolve(t);
@@ -363,7 +443,7 @@ var placesAPI = function() {
        returnText += "have been sent to your phone";
        el.searchPlaces(query)
        .then(function(res) {
-         if(!res) return false;
+         if(!res) d.resolve(false);
          var c = res[0];
          var placeId = c.place_id;
          el.getDetails(placeId)
@@ -374,6 +454,7 @@ var placesAPI = function() {
             var r = returnText.replace('{{query}}', query);
             el.getDirections(address, a)
             .then(function(res) {
+              if(!res) d.resolve(false);
               if(res) {
                 var time = res.duration.text;
                 r = r.replace("{{time}}", time);
