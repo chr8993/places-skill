@@ -1,95 +1,132 @@
 {
-   "intents":[
-      {
-         "intent":"AskNearestIntent",
-         "slots":[
-            {
-               "name":"Place",
-               "type":"LIST_OF_PLACES"
-            },
-            {
-               "name":"Location",
-               "type":"LIST_OF_CITIES"
-            }
-         ]
-      },
-      {
-         "intent":"AskHoursIntent",
-         "slots":[
-            {
-               "name":"HoursPlace",
-               "type":"LIST_OF_PLACES"
-            },
-            {
-               "name":"HoursLocation",
-               "type":"LIST_OF_CITIES"
-            }
-         ]
-      },
-      {
-         "intent":"AskPhoneIntent",
-         "slots":[
-            {
-               "name":"PhonePlace",
-               "type":"LIST_OF_PLACES"
-            },
-            {
-               "name":"PhoneLocation",
-               "type":"LIST_OF_CITIES"
-            }
-         ]
-      },
-      {
-         "intent":"AskDirectionsIntent",
-         "slots":[
-            {
-               "name":"DirectionsPlace",
-               "type":"LIST_OF_PLACES"
-            },
-            {
-               "name":"DirectionsLocation",
-               "type":"LIST_OF_CITIES"
-            }
-         ]
-      },
-      {
-         "intent":"RecieveLocationIntent",
-         "slots":[
-            {
-               "name":"LocationResponse",
-               "type":"LIST_OF_CITIES"
-            }
-         ]
-      },
-      {
-         "intent":"VerifyLocationIntent",
-         "slots":[
-            {
-               "name":"VerifyResponse",
-               "type":"LIST_OF_ANSWERS"
-            }
-         ]
-      },
-      {
-         "intent":"GetLocationIntent"
-      },
-      {
-         "intent":"SetLocationIntent",
-         "slots":[
-            {
-               "name":"LocationAnswer",
-               "type":"LIST_OF_CITIES"
-            }
-         ]
-      },
-      {
-         "intent":"AMAZON.HelpIntent"
-      },
-      {
-         "intent":"AMAZON.CancelIntent"
-      },
-      {
-         "intent":"AMAZON.StopIntent"
-      }
-   ]
-}
+	"intents": [
+	  {
+		"name": "AMAZON.CancelIntent",
+		"samples": []
+	  },
+	  {
+		"name": "AMAZON.HelpIntent",
+		"samples": []
+	  },
+	  {
+		"name": "AMAZON.StopIntent",
+		"samples": []
+	  },
+	  {
+		"name": "AskDirectionsIntent",
+		"samples": [],
+		"slots": [
+		  {
+			"name": "DirectionsPlace",
+			"type": "LIST_OF_PLACES",
+			"samples": []
+		  },
+		  {
+			"name": "DirectionsLocation",
+			"type": "LIST_OF_CITIES",
+			"samples": []
+		  }
+		]
+	  },
+	  {
+		"name": "AskHoursIntent",
+		"samples": [],
+		"slots": [
+		  {
+			"name": "HoursPlace",
+			"type": "LIST_OF_PLACES",
+			"samples": []
+		  },
+		  {
+			"name": "HoursLocation",
+			"type": "LIST_OF_CITIES",
+			"samples": []
+		  }
+		]
+	  },
+	  {
+		"name": "AskNearestIntent",
+		"samples": [],
+		"slots": [
+		  {
+			"name": "Place",
+			"type": "LIST_OF_PLACES",
+			"samples": []
+		  },
+		  {
+			"name": "Location",
+			"type": "LIST_OF_CITIES",
+			"samples": []
+		  }
+		]
+	  },
+	  {
+		"name": "AskPhoneIntent",
+		"samples": [],
+		"slots": [
+		  {
+			"name": "PhonePlace",
+			"type": "LIST_OF_PLACES",
+			"samples": []
+		  },
+		  {
+			"name": "PhoneLocation",
+			"type": "LIST_OF_CITIES",
+			"samples": []
+		  }
+		]
+	  },
+	  {
+		"name": "GetLocationIntent",
+		"samples": [],
+		"slots": []
+	  },
+	  {
+		"name": "RecieveLocationIntent",
+		"samples": [],
+		"slots": [
+		  {
+			"name": "LocationResponse",
+			"type": "LIST_OF_CITIES",
+			"samples": []
+		  }
+		]
+	  },
+	  {
+		"name": "SetLocationIntent",
+		"samples": [],
+		"slots": [
+		  {
+			"name": "LocationAnswer",
+			"type": "LIST_OF_CITIES",
+			"samples": []
+		  }
+		]
+	  },
+	  {
+		"name": "VerifyLocationIntent",
+		"samples": [],
+		"slots": [
+		  {
+			"name": "VerifyResponse",
+			"type": "LIST_OF_ANSWERS",
+			"samples": []
+		  }
+		]
+	  }
+	],
+	"types": [
+	  {
+		"name": "LIST_OF_ANSWERS",
+		"values": []
+	  },
+	  {
+		"name": "LIST_OF_CITIES",
+		"values": []
+	  },
+	  {
+		"name": "LIST_OF_PLACES",
+		"values": []
+	  }
+	]
+  }
